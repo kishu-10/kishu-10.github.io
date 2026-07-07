@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kishu Maharjan — Software Engineer</title>
+<meta name="description" content="Kishu Maharjan — Software Engineer specializing in backend systems, APIs, and data infrastructure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171A;
+    --panel: #1B1F23;
+    --panel-2: #20252A;
+    --grid-line: #2A3036;
+    --hair-line: #3A4148;
+    --ink: #E8E6E1;
+    --ink-dim: #9BA3AA;
+    --ink-faint: #5C646B;
+    --cyan: #6FD1DE;
+    --cyan-dim: #3E5C60;
+    --amber: #E8A33D;
+    --sheet-radius: 2px;
+    --max-w: 920px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-attachment: fixed;
+  }
+
+  ::selection{ background: var(--cyan-dim); color: var(--ink); }
+
+  a{ color: var(--cyan); text-decoration: none; }
+  a:hover{ text-decoration: underline; }
+
+  .mono{ font-family: 'Inter', sans-serif; }
+
+  .wrap{
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- registration marks / sheet chrome ---------- */
+  .sheet{
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--hair-line);
+    border-radius: var(--sheet-radius);
+    padding: 48px clamp(24px, 5vw, 64px);
+    margin: 0 0 56px 0;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .sheet.in-view{ opacity: 1; transform: translateY(0); }
+
+  .sheet::before, .sheet::after,
+  .crosshair-tl, .crosshair-br{
+    content:"";
+    position:absolute;
+    width: 14px; height: 14px;
+    pointer-events:none;
+  }
+  .sheet::before{
+    top:-1px; left:-1px;
+    border-top: 1px solid var(--cyan);
+    border-left: 1px solid var(--cyan);
+  }
+  .sheet::after{
+    bottom:-1px; right:-1px;
+    border-bottom: 1px solid var(--cyan);
+    border-right: 1px solid var(--cyan);
+  }
+
+  .sheet-label{
+    position:absolute;
+    top: -11px;
+    left: 24px;
+    background: var(--bg);
+    padding: 0 10px;
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .sheet-label b{ color: var(--cyan); font-weight: 600; }
+
+  .sheet-meta{
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 10px;
+    letter-spacing: .08em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+
+  h2.sheet-title{
+    margin: 0 0 6px 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(20px, 3vw, 26px);
+    letter-spacing: .01em;
+  }
+  .sheet-sub{
+    margin: 0 0 32px 0;
+    color: var(--ink-dim);
+    font-size: 13.5px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    padding: 96px 24px 64px;
+    position: relative;
+  }
+  .hero-inner{
+    max-width: var(--max-w);
+    margin: 0 auto;
+    position: relative;
+  }
+  .eyebrow{
+    font-family: 'Inter', sans-serif;
+    color: var(--cyan);
+    font-size: 12.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom: 22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width: 22px; height: 1px;
+    background: var(--cyan);
+  }
+
+  h1{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(38px, 7.2vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px 0;
+  }
+  h1 .stroke{
+    display:block;
+    overflow:hidden;
+  }
+  h1 .stroke span{
+    display:inline-block;
+    transform: translateY(110%);
+    animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes rise{ to{ transform: translateY(0); } }
+
+  .role-line{
+    font-size: clamp(16px, 2.4vw, 20px);
+    color: var(--ink-dim);
+    max-width: 560px;
+    margin: 0 0 34px 0;
+  }
+  .role-line b{ color: var(--ink); font-weight: 600; }
+
+  .contact-row{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px 10px;
+    margin-bottom: 44px;
+  }
+  .contact-row a{
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    border: 1px solid var(--hair-line);
+    padding: 8px 14px;
+    border-radius: 2px;
+    transition: border-color .2s ease, color .2s ease;
+    text-decoration: none;
+  }
+  .contact-row a:hover{
+    color: var(--cyan);
+    border-color: var(--cyan-dim);
+    text-decoration: none;
+  }
+
+  /* schematic stat strip */
+  .schematic{
+    border-top: 1px dashed var(--hair-line);
+    padding-top: 26px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .stat{
+    position: relative;
+    padding-left: 14px;
+  }
+  .stat::before{
+    content:"";
+    position:absolute;
+    left:0; top: 4px; bottom: 4px;
+    width: 1px;
+    background: var(--cyan-dim);
+  }
+  .stat .num{
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    color: var(--cyan);
+    font-weight: 600;
+    display:block;
+  }
+  .stat .lbl{
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+
+  @media (max-width: 640px){
+    .schematic{ grid-template-columns: repeat(2, 1fr); }
+  }
+
+  main{ padding-top: 8px; }
+
+  /* ---------- experience ---------- */
+  .job{
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 24px;
+    padding: 26px 0;
+    border-top: 1px solid var(--grid-line);
+  }
+  .job:first-of-type{ border-top: none; padding-top: 0; }
+  .job-when{
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--ink-faint);
+    padding-top: 3px;
+  }
+  .job-when .loc{ display:block; color: var(--ink-dim); margin-top: 4px; }
+  .job-title{
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 2px 0;
+  }
+  .job-org{
+    color: var(--cyan);
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    margin-bottom: 12px;
+    display:block;
+  }
+  .job ul{
+    margin: 0;
+    padding-left: 18px;
+    color: var(--ink-dim);
+  }
+  .job li{ margin-bottom: 8px; font-size: 15px; }
+  .job li::marker{ color: var(--cyan-dim); }
+
+  @media (max-width: 620px){
+    .job{ grid-template-columns: 1fr; gap: 6px; }
+  }
+
+  /* ---------- projects ---------- */
+  .projects-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 700px){ .projects-grid{ grid-template-columns: 1fr; } }
+
+  .proj{
+    border: 1px solid var(--grid-line);
+    background: var(--panel-2);
+    padding: 22px;
+    border-radius: 2px;
+    position: relative;
+  }
+  .proj-num{
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: .1em;
+  }
+  .proj h3{
+    font-size: 16.5px;
+    margin: 8px 0 10px;
+  }
+  .proj p{
+    color: var(--ink-dim);
+    font-size: 14.5px;
+    margin: 0 0 14px 0;
+  }
+  .tag-row{ display:flex; flex-wrap: wrap; gap: 6px; }
+  .tag{
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5px;
+    color: var(--cyan);
+    border: 1px solid var(--cyan-dim);
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: .02em;
+  }
+
+  /* ---------- education ---------- */
+  .edu-item{
+    display:grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding: 16px 0;
+    border-top: 1px dashed var(--grid-line);
+    align-items: baseline;
+  }
+  .edu-item:first-of-type{ border-top: none; padding-top: 0; }
+  .edu-item .school{ font-weight: 600; font-size: 16px; }
+  .edu-item .degree{ color: var(--ink-dim); font-size: 14px; display:block; margin-top: 2px; }
+  .edu-item .when{
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .edu-item .when .loc{ display:block; margin-top: 3px; }
+
+  /* ---------- skills ---------- */
+  .skill-legend{
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 14px 20px;
+  }
+  .skill-legend .key{
+    font-family: 'Inter', sans-serif;
+    font-size: 11.5px;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding-top: 4px;
+  }
+  .skill-legend .val{
+    color: var(--ink-dim);
+    font-size: 14.5px;
+    border-bottom: 1px solid var(--grid-line);
+    padding-bottom: 14px;
+  }
+  .skill-legend > div:nth-last-child(-n+2) .val,
+  .skill-legend > div:nth-last-child(-n+2).key{ border-bottom: none; }
+
+  @media (max-width: 620px){
+    .skill-legend{ grid-template-columns: 1fr; gap: 4px 0; }
+    .skill-legend .val{ padding-bottom: 16px; }
+  }
+
+  /* ---------- activities ---------- */
+  .activity{
+    padding: 20px 0;
+    border-top: 1px solid var(--grid-line);
+  }
+  .activity:first-of-type{ border-top: none; padding-top: 0; }
+  .activity .a-event{
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .activity h3{
+    font-size: 16.5px;
+    margin: 6px 0 8px;
+  }
+  .activity h3 .name{ color: var(--cyan); }
+  .activity p{ color: var(--ink-dim); font-size: 14.5px; margin: 0; }
+
+  /* ---------- footer ---------- */
+  footer{
+    padding: 40px 24px 60px;
+    text-align: center;
+  }
+  footer .line{
+    width: 40px; height: 1px;
+    background: var(--hair-line);
+    margin: 0 auto 20px;
+  }
+  footer p{
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin: 0 0 6px;
+  }
+  footer a{ color: var(--ink-dim); }
+  footer a:hover{ color: var(--cyan); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+    .sheet{ opacity: 1; transform: none; }
+    h1 .stroke span{ transform: none; }
+  }
+
+  :focus-visible{
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Kathmandu → Massachusetts</div>
+    <h1>
+      <span class="stroke"><span style="animation-delay:.02s">Kishu</span></span>
+      <span class="stroke"><span style="animation-delay:.12s">Maharjan</span></span>
+    </h1>
+    <p class="role-line">
+      <b>Software engineer</b> who architects backends — APIs, schemas, pipelines —
+      for systems that hold up under real load: banking platforms, government
+      fiscal tools, healthcare AI.
+    </p>
+
+    <div class="contact-row">
+      <a href="mailto:mhrznkishu.10@gmail.com">mhrznkishu.10@gmail.com</a>
+      <a href="https://github.com/kishu-10" target="_blank" rel="noopener">github.com/kishu-10</a>
+      <a href="https://linkedin.com/in/kishu-maharjan" target="_blank" rel="noopener">linkedin.com/in/kishu-maharjan</a>
+      <a href="https://kishumaharjan.com.np" target="_blank" rel="noopener">kishumaharjan.com.np</a>
+    </div>
+
+    <div class="schematic">
+      <div class="stat"><span class="num">3+ yrs</span><span class="lbl">Backend engineering</span></div>
+      <div class="stat"><span class="num">250+</span><span class="lbl">Branches served, one system</span></div>
+      <div class="stat"><span class="num">7 / 753</span><span class="lbl">Provinces / local govts costed</span></div>
+      <div class="stat"><span class="num">MS CS</span><span class="lbl">Fitchburg State, in progress</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="sheet" id="experience">
+    <span class="sheet-label"><b>Sheet 01</b> — Work Experience</span>
+    <span class="sheet-meta mono">Rev. 2026</span>
+    <h2 class="sheet-title">Where I've built things</h2>
+    <p class="sheet-sub">// two roles, two very different kinds of load-bearing software</p>
+
+    <div class="job">
+      <div class="job-when">
+        Sep 2023 – Jul 2024
+        <span class="loc">Kathmandu, Nepal</span>
+      </div>
+      <div>
+        <span class="job-title">Software Engineer</span>
+        <span class="job-org">Fusemachines Nepal Pvt. Ltd.</span>
+        <ul>
+          <li>Architected the backend for a conversational AI healthcare platform on FastAPI and PostgreSQL, improving clinic workflow reliability and system uptime.</li>
+          <li>Optimized 30+ ORM queries with SQLAlchemy, cutting average query execution time by 40% and reducing database load during peak traffic.</li>
+          <li>Managed schema versioning with Alembic migrations, cutting deployment failures by 80% across environments.</li>
+          <li>Built a real-time WebSocket chat system with live notifications and internal messaging, speeding up response time between clinic staff.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-when">
+        Jun 2021 – Jul 2023
+        <span class="loc">Lalitpur, Nepal</span>
+      </div>
+      <div>
+        <span class="job-title">Software Engineer</span>
+        <span class="job-org">InfoDevelopers Pvt. Ltd.</span>
+        <ul>
+          <li>Developed a Loan Management System for Nepal's largest commercial bank, implementing role-based access control across 250+ branches to reduce unauthorized access.</li>
+          <li>Designed a Document Management System with structured retrieval by user and loan type, cutting manual tracking errors org-wide.</li>
+          <li>Built the budget calculation logic for a government fiscal planning system, enabling accurate fund distribution across 7 provinces and 753 local governments.</li>
+          <li>Configured Docker for dev and production environments and set up Jenkins CI/CD pipelines, cutting release cycles by 40%.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" id="projects">
+    <span class="sheet-label"><b>Sheet 02</b> — Selected Projects</span>
+    <span class="sheet-meta mono">Scale 1:1</span>
+    <h2 class="sheet-title">Things I built end to end</h2>
+    <p class="sheet-sub">// from schema design to the API contract</p>
+
+    <div class="projects-grid">
+      <div class="proj">
+        <span class="proj-num">PRJ.01</span>
+        <h3>Online Credit Application System</h3>
+        <p>
+          Secure REST API with JWT authentication, custom pagination, and
+          centralized exception handling. Includes a user management module
+          for branch-specific access control and a document management
+          system organized by loan application, improving accessibility
+          across the organization.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Django REST Framework</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Next.js</span>
+          <span class="tag">Docker</span>
+        </div>
+      </div>
+
+      <div class="proj">
+        <span class="proj-num">PRJ.02</span>
+        <h3>Texo E-Commerce</h3>
+        <p>
+          Core Django models with form validation and templated email
+          notifications. Added digital wallet payment gateways and used
+          atomic transactions to keep order processing secure and
+          consistent under concurrent load.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Django</span>
+          <span class="tag">Celery</span>
+          <span class="tag">RabbitMQ</span>
+          <span class="tag">PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" id="education">
+    <span class="sheet-label"><b>Sheet 03</b> — Education</span>
+    <span class="sheet-meta mono">As-built</span>
+    <h2 class="sheet-title">Academic record</h2>
+
+    <div class="edu-item">
+      <div>
+        <span class="school">Fitchburg State University</span>
+        <span class="degree">Master's in Computer Science</span>
+      </div>
+      <div class="when">Aug 2025 – Dec 2026<span class="loc">Massachusetts, United States</span></div>
+    </div>
+
+    <div class="edu-item">
+      <div>
+        <span class="school">Wright State University</span>
+        <span class="degree">Master's in Computer Science (transferred)</span>
+      </div>
+      <div class="when">Aug 2024 – May 2025<span class="loc">Ohio, United States</span></div>
+    </div>
+
+    <div class="edu-item">
+      <div>
+        <span class="school">Islington College</span>
+        <span class="degree">BSc (Hons) Computing</span>
+      </div>
+      <div class="when">Sep 2019 – Oct 2022<span class="loc">Kathmandu, Nepal</span></div>
+    </div>
+  </section>
+
+  <section class="sheet" id="skills">
+    <span class="sheet-label"><b>Sheet 04</b> — Skills Legend</span>
+    <span class="sheet-meta mono">Key</span>
+    <h2 class="sheet-title">Toolset</h2>
+
+    <div class="skill-legend">
+      <div class="key">Languages</div>
+      <div class="val">Python, JavaScript, TypeScript, Java, SQL, C++</div>
+
+      <div class="key">Databases</div>
+      <div class="val">PostgreSQL, MySQL, MongoDB, Redis</div>
+
+      <div class="key">Frameworks</div>
+      <div class="val">Django, FastAPI, React.js, Next.js, SQLAlchemy, Scikit-learn, NumPy, Pandas, BeautifulSoup</div>
+
+      <div class="key">DevOps &amp; Tools</div>
+      <div class="val">Docker, Jenkins, Git, Nginx, Postman, Selenium, Apache Airflow, JWT/OAuth2, REST API</div>
+    </div>
+  </section>
+
+  <section class="sheet" id="activities">
+    <span class="sheet-label"><b>Sheet 05</b> — Activities</span>
+    <span class="sheet-meta mono">Field notes</span>
+    <h2 class="sheet-title">Hackathons</h2>
+
+    <div class="activity">
+      <span class="a-event">MIT Hacking Medicine · GrandHack 2026 — Massachusetts Institute of Technology</span>
+      <h3><span class="name">ChronoChart</span> — AI-powered psychiatric EHR dashboard</h3>
+      <p>
+        Converts unstructured clinical notes into longitudinal medication and
+        symptom trajectories, surfacing clinically critical distinctions —
+        like patient-initiated medication stops versus true treatment failures
+        — to guide prescribing decisions.
+      </p>
+    </div>
+
+    <div class="activity">
+      <span class="a-event">DeerHack 2023 — Deerwalk Institute of Technology</span>
+      <h3><span class="name">InfuseAI</span> — automated HR interview assistant</h3>
+      <p>
+        An application that runs the first pass of an HR interview: the bot
+        converses with candidates, transcribes responses, and generates
+        relevant follow-up questions to evaluate their qualifications.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="line"></div>
+  <p>Kishu Maharjan — built with a text editor, not a template</p>
+  <p><a href="mailto:mhrznkishu.10@gmail.com">mhrznkishu.10@gmail.com</a> · <a href="https://github.com/kishu-10" target="_blank" rel="noopener">GitHub</a> · <a href="https://linkedin.com/in/kishu-maharjan" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+<script>
+  // reveal sheets as they enter viewport
+  const sheets = document.querySelectorAll('.sheet');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in-view');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  sheets.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>
